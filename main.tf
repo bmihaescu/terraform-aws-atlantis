@@ -14,7 +14,7 @@ locals {
   atlantis_url_events = "${local.atlantis_url}/events"
 
   # Include only one group of secrets - for github, gitlab or bitbucket
-  secrets_group = var.atlantis_gitlab_user != "" || var.atlantis_github_user != "" || var.atlantis_bitbucket_user != ""
+  secrets_group = var.atlantis_gitlab_user != "" ? var.atlantis_github_user != "" : var.atlantis_bitbucket_user != ""
   has_secrets   = var.atlantis_gitlab_user_token != "" || var.atlantis_github_user_token != "" || var.atlantis_bitbucket_user_token != ""
 
   secret_name_key = local.secrets_group && local.has_secrets ? var.atlantis_gitlab_user_token != "" ? "ATLANTIS_GITLAB_TOKEN" : var.atlantis_github_user_token != "" ? "ATLANTIS_GH_TOKEN" : "ATLANTIS_BITBUCKET_TOKEN" : "unknown_secret_name_key"
