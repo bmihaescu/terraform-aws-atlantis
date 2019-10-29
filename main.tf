@@ -18,7 +18,7 @@ locals {
 
   has_secrets = var.atlantis_gitlab_user_token != "" || var.atlantis_github_user_token != "" || var.atlantis_bitbucket_user_token != ""
 
-  secret_name_key = local.has_secrets && local.secrets_group == "BITBUCKET" ? var.atlantis_gitlab_user_token != "" && local.secrets_group == "GITLAB" ? "ATLANTIS_GITLAB_TOKEN" : var.atlantis_github_user_token != "" && local.secrets_group == "GITHUB" ? "ATLANTIS_GH_TOKEN" : "ATLANTIS_BITBUCKET_TOKEN" : "unknown_secret_name_key"
+  secret_name_key = local.has_secrets || local.secrets_group == "BITBUCKET" ? var.atlantis_gitlab_user_token != "" || local.secrets_group == "GITLAB" ? "ATLANTIS_GITLAB_TOKEN" : var.atlantis_github_user_token != "" || local.secrets_group == "GITHUB" ? "ATLANTIS_GH_TOKEN" : "ATLANTIS_BITBUCKET_TOKEN" : "unknown_secret_name_key"
 
   secret_name_value_from = local.has_secrets ? var.atlantis_gitlab_user_token != "" ? var.atlantis_gitlab_user_token_ssm_parameter_name : var.atlantis_github_user_token != "" ? var.atlantis_github_user_token_ssm_parameter_name : var.atlantis_bitbucket_user_token_ssm_parameter_name : "unknown_secret_name_value"
 
